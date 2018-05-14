@@ -48,7 +48,7 @@ class PostsController extends Controller
             $post->save();
         }
         
-        return response('Update Successfully.', 200);
+        return response('{"content":"OK","status":"success"}', 200);
     }
 
 
@@ -69,7 +69,7 @@ class PostsController extends Controller
             }
         }
         
-        return response('Update Successfully.', 200);
+        return response('{"content":"OK","status":"success"}', 200);
     }    
 
 
