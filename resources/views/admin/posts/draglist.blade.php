@@ -122,6 +122,7 @@
 
         var val=[];
         var idkeep=$(this).attr("id");
+        var checked=this.checked;
         if(this.checked) {
           val.push({
           id: $(this).attr("id"),
@@ -146,17 +147,17 @@
         success: function(response) {
             if (response.status == "success") {
               console.log(response);
-              if(this.checked) {              
-                $('#statuspost'+idkeep).val("Show");
+              if(checked) {              
+                $("#statuspost"+idkeep).html("Show");
               }
               else {
-                $('#statuspost'+idkeep).val("Hidden");
+                $("#statuspost"+idkeep).html("Hidden");
               }
             } else {
               console.log(response);
               alert("Error on Requesting!");
               //revert changes
-              if(this.checked) {              
+              if(checked) {              
                 this.attr('checked', false);
               }
               else {
@@ -199,6 +200,12 @@
               console.log(response);
             }
         }
+        ,
+        error: function( jqXHR, textStatus, errorThrown ) {
+            //alert();
+            console.log(textStatus);
+            console.log(errorThrown);
+		  }        
       });
 
     }
