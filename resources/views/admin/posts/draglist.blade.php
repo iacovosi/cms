@@ -43,8 +43,10 @@
                     <td>
                       {{ $post->title }}
                     </td>
-                    <td id="statuspost{{ $post->id }}">
+                    <td >
+                      <div id="statuspost{{ $post->id }}">
                       {{ ($post->status == 1)? "Show" : "Hidden" }}
+                      </div>
                     </td>
                     <td>
                         <input name="status" type="checkbox" value="on" class="changestatus" id="{{ $post->id }}"
@@ -119,6 +121,7 @@
     $(".changestatus").change(function() {
 
         var val=[];
+        var idkeep=$(this).attr("id");
         if(this.checked) {
           val.push({
           id: $(this).attr("id"),
@@ -143,17 +146,32 @@
         success: function(response) {
             if (response.status == "success") {
               console.log(response);
+              if(this.checked) {              
+                $('#statuspost'+idkeep).val("Show");
+              }
+              else {
+                $('#statuspost'+idkeep).val("Hidden");
+              }
             } else {
               console.log(response);
+              alert("Error on Requesting!");
+              //revert changes
+              if(this.checked) {              
+                this.attr('checked', false);
+              }
+              else {
+                this.attr('checked', true);             
             }
         }
+        }
+        ,
+        error: function( jqXHR, textStatus, errorThrown ) {
+            //alert();
+            console.log(textStatus);
+            console.log(errorThrown);
+		  }        
       });
-
-      //  if(this.checked) {
-      //      var returnVal = confirm("Are you sure?");
-      //      $(this).prop("checked", returnVal);
-      //  }
-       // $('#textbox1').val(this.checked);        
+     
     });
 
     function sendOrderToServer() {
@@ -177,7 +195,6 @@
         success: function(response) {
             if (response.status == "success") {
               console.log(response);
-              alert("you are sexy!");
             } else {
               console.log(response);
             }
